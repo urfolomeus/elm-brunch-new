@@ -19,7 +19,16 @@ class ElmCompiler {
   // Transforms a file data to different data. Could change the source map etc.
   // Examples: JSX, CoffeeScript, Handlebars, SASS.
   compile(file) {
-    console.log('Compiling: ', file);
+    console.log('Compiling: ', file.path);
+
+    var childProcess = require('child_process')
+      , outputFile   = 'web/static/vendor/seatsaver.js'
+      , srcFile      = 'SeatSaver.elm'
+      , elmFolder    = 'web/elm';
+
+    childProcess.exec('elm make --yes --output ' + outputFile + ' ' + srcFile, {cwd: elmFolder}, function (error, stdout, stderr){
+      return callback(error, error ? stderr : null);
+    });
     return Promise.resolve(file);
   }
 
